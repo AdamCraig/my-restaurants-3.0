@@ -11,6 +11,8 @@ import com.epicodus.myrestaurants.Constants;
 import com.epicodus.myrestaurants.R;
 import com.epicodus.myrestaurants.models.Restaurant;
 import com.epicodus.myrestaurants.ui.RestaurantDetailActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,9 +24,6 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-/**
- * Created by Guest on 7/11/16.
- */
 public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private static final int MAX_HEIGHT = 200;
     private static final int MAX_WIDTH = 200;
@@ -47,6 +46,10 @@ public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder implem
 
         Picasso.with(mContext).load(restaurant.getImageUrl()).resize(MAX_WIDTH, MAX_HEIGHT).centerCrop().into(restaurantImageView);
 
+        categoryTextView.setText(restaurant.getCategories().get(0));
+        nameTextView.setText(restaurant.getName());
+        ratingTextView.setText(restaurant.getRating() + "/5");
+
     }
 
     @Override
@@ -54,6 +57,14 @@ public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder implem
         final ArrayList<Restaurant> restaurants = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_RESTAURANTS);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String uid = user.getUid();
+            DatabaseReference ref = FirebaseDatabase
+                    .getInstance()
+                    .getReference(Constants.FIREBASE_CHILD_RESTAURANTS)
+                    .child(uid);
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
