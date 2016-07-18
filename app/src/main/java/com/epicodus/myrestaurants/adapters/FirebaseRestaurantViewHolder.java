@@ -31,6 +31,8 @@ public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder implem
     View mView;
     Context mContext;
 
+    public ImageView mRestaurantImageView;
+
     public FirebaseRestaurantViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
@@ -39,12 +41,12 @@ public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder implem
     }
 
     public void bindRestaurant(Restaurant restaurant) {
-        ImageView restaurantImageView = (ImageView) mView.findViewById(R.id.restaurantImageView);
+        mRestaurantImageView = (ImageView) mView.findViewById(R.id.restaurantImageView);
         TextView categoryTextView = (TextView) mView.findViewById(R.id.categoryTextView);
         TextView nameTextView = (TextView) mView.findViewById(R.id.restaurantNameTextView);
         TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
 
-        Picasso.with(mContext).load(restaurant.getImageUrl()).resize(MAX_WIDTH, MAX_HEIGHT).centerCrop().into(restaurantImageView);
+        Picasso.with(mContext).load(restaurant.getImageUrl()).resize(MAX_WIDTH, MAX_HEIGHT).centerCrop().into(mRestaurantImageView);
 
         categoryTextView.setText(restaurant.getCategories().get(0));
         nameTextView.setText(restaurant.getName());
