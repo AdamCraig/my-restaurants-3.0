@@ -3,6 +3,7 @@ package com.epicodus.myrestaurants.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.epicodus.myrestaurants.Constants;
 import com.epicodus.myrestaurants.R;
 import com.epicodus.myrestaurants.models.Restaurant;
 import com.epicodus.myrestaurants.ui.RestaurantDetailActivity;
+import com.epicodus.myrestaurants.util.ItemTouchHelperViewHolder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +26,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder {
+public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
     private static final int MAX_HEIGHT = 200;
     private static final int MAX_WIDTH = 200;
 
@@ -56,4 +58,17 @@ public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder {
         ratingTextView.setText(restaurant.getRating() + "/5");
 
     }
+
+    @Override
+    public void onItemSelected() {
+        Log.d("Animation", "onItemSelected");
+        //
+    }
+
+    public void onItemClear() {
+        Log.d("Animation", "onItemClear");
+        //
+    }
+
+
 }
